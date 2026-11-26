@@ -1,186 +1,328 @@
 
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EGGSTER — FEAL.NUN</title>
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;background:#fffaf0;color:#29251f;
+ margin:0;background:#faf9f6;color:#252525;
  font-family:Arial,sans-serif;text-align:center;
 }
 header{
- padding:18px;border-bottom:2px solid #f1e8d8;
- display:flex;justify-content:space-between;align-items:center;
+ height:70px;padding:0 6%;
+ background:white;border-bottom:1px solid #eee;
+ display:flex;align-items:center;justify-content:space-between;
 }
-header a{color:#29251f;text-decoration:none;font-weight:bold}
-h1{font-size:38px;margin:28px 0 5px}
-.sub{color:#887e6d}
+header a{color:#444;text-decoration:none;font-weight:bold;font-size:14px}
+.logo{font-size:21px;font-weight:900;letter-spacing:-1px}
+main{max-width:780px;margin:35px auto;padding:0 18px}
+h1{font-size:43px;letter-spacing:-2px;margin:15px 0 5px}
+.subtitle{color:#999;font-size:14px;line-height:1.7}
 .stats{
- display:flex;justify-content:center;gap:12px;
- flex-wrap:wrap;margin:25px;
+ display:flex;justify-content:center;
+ flex-wrap:wrap;gap:12px;margin:25px 0;
 }
 .stat{
- background:white;border:2px solid #f0e5d1;
- border-radius:14px;padding:13px 22px;
- min-width:110px;font-weight:bold;
+ background:white;border:1px solid #eaeaea;
+ border-radius:13px;padding:14px 24px;
+ min-width:125px;font-size:12px;color:#999;
+}
+.stat strong{
+ display:block;color:#252525;
+ font-size:22px;margin-top:7px;
+}
+.egg-area{
+ margin:25px auto 5px;
+ width:190px;height:190px;
+ display:flex;align-items:center;justify-content:center;
 }
 #egg{
- border:0;background:none;font-size:135px;
- cursor:pointer;transition:transform .12s;
- filter:drop-shadow(0 10px 5px #d9c8a0);
+ width:112px;height:145px;
+ border-radius:50% 50% 45% 45%;
+ border:2px solid #e0d3ba;
+ background:linear-gradient(135deg,#fff 5%,#eee3cb 100%);
+ box-shadow:inset -12px -8px 20px #d9c9a9,0 15px 25px #0000000c;
+ cursor:pointer;transition:.15s;
 }
-#egg:active{transform:scale(.85) rotate(-10deg)}
-#message{height:25px;color:#b17c26;font-weight:bold}
+#egg:active{transform:scale(.88) rotate(-10deg)}
+#message{height:24px;color:#a58b5d;font-size:13px}
+.panel{
+ background:white;border:1px solid #eaeaea;
+ border-radius:17px;padding:22px;
+ margin:22px 0;text-align:left;
+}
+.panel h2{text-align:center;font-size:19px;margin:0 0 18px}
+.secret{
+ display:flex;align-items:center;
+ justify-content:space-between;
+ gap:12px;padding:13px 2px;
+ border-bottom:1px solid #f0f0f0;
+ font-size:13px;
+}
+.secret:last-child{border-bottom:0}
+.status{color:#aaa;font-size:12px}
+.status.found{color:#39845b;font-weight:bold}
+.clues p{font-size:13px;color:#888;line-height:1.7}
 button{
- border:0;border-radius:12px;padding:13px 19px;
- background:#29251f;color:white;font-weight:bold;
- cursor:pointer;margin:5px;
+ border:0;border-radius:10px;
+ background:#292929;color:white;
+ padding:12px 17px;font-weight:bold;
+ cursor:pointer;
 }
 button:hover{opacity:.8}
-.shop{
- max-width:600px;margin:30px auto;padding:20px;
- background:white;border:2px solid #f0e5d1;
- border-radius:18px;
+#hint{min-height:22px;color:#9a845f;font-size:13px}
+#progress{
+ height:7px;background:#eee;border-radius:20px;
+ overflow:hidden;margin:12px 0 4px;
 }
-.upgrade{
- display:flex;justify-content:space-between;
- align-items:center;gap:10px;padding:12px;
- border-bottom:1px solid #eee;text-align:left;
+#bar{height:100%;width:0;background:#555;transition:.3s}
+footer{padding:35px;color:#aaa;font-size:12px}
+#hidden-zone{
+ position:fixed;left:0;top:0;
+ width:24px;height:24px;
+ background:transparent;border:0;
+ opacity:0;cursor:default;
 }
-.upgrade:last-child{border:0}
-.upgrade small{color:#887e6d}
-.upgrade button{white-space:nowrap}
-footer{padding:30px;color:#a99c88}
 </style>
 </head>
 <body>
+
 <header>
- <a href="index.html">← FEAL.NUN</a>
- <strong>🥚 EGGSTER</strong>
+ <a href="./index.html">Back to FEAL.NUN</a>
+ <div class="logo">FEAL.NUN</div>
 </header>
 
-<h1>EGGSTER 🥚</h1>
-<p class="sub">Click eggs. Get rich. Discover secrets.</p>
+<main>
+ <h1>EGGSTER</h1>
+ <p class="subtitle">
+  Eight secrets are waiting.<br>
+  Some are easy to find. Others are not.
+ </p>
 
-<div class="stats">
- <div class="stat">🥚 Eggs<br><span id="eggs">0</span></div>
- <div class="stat">⚡ Per click<br><span id="power">1</span></div>
- <div class="stat">🤖 Per second<br><span id="auto">0</span></div>
-</div>
-
-<div>
- <button id="egg" onclick="clickEgg()">🥚</button>
-</div>
-<p id="message">Click the egg!</p>
-
-<div>
- <button onclick="saveGame()">💾 Save</button>
- <button onclick="resetGame()">🔄 Reset</button>
-</div>
-
-<div class="shop">
- <h2>🛒 Egg Shop</h2>
- <div class="upgrade">
-  <div><strong>💪 Stronger Click</strong><br><small>+1 egg per click</small></div>
-  <button onclick="buyClick()">Buy: <span id="clickCost">25</span></button>
+ <div class="stats">
+  <div class="stat">TOTAL CLICKS<strong id="clicks">0</strong></div>
+  <div class="stat">SECRETS FOUND<strong id="count">0 / 8</strong></div>
  </div>
- <div class="upgrade">
-  <div><strong>🤖 Egg Bot</strong><br><small>+1 egg per second</small></div>
-  <button onclick="buyAuto()">Buy: <span id="autoCost">100</span></button>
- </div>
- <div class="upgrade">
-  <div><strong>🚀 Mega Click</strong><br><small>+10 eggs per click</small></div>
-  <button onclick="buyMega()">Buy: <span id="megaCost">500</span></button>
- </div>
-</div>
 
-<div class="shop">
- <h2>🏆 Achievements</h2>
- <p id="achievement">🔒 First 100 eggs: locked</p>
- <p id="secret">❓ Secret discovery: locked</p>
-</div>
+ <div class="egg-area">
+  <button id="egg" aria-label="Click the egg"></button>
+ </div>
 
-<footer>EGGSTER · A FEAL.NUN game</footer>
+ <p id="message">Maybe you should start by clicking.</p>
+
+ <div id="progress"><div id="bar"></div></div>
+
+ <section class="panel">
+  <h2>SECRET COLLECTION</h2>
+
+  <div class="secret">
+   <span>001 — Lucky Number</span>
+   <span class="status" id="s1">LOCKED</span>
+  </div>
+  <div class="secret">
+   <span>002 — The Logo</span>
+   <span class="status" id="s2">LOCKED</span>
+  </div>
+  <div class="secret">
+   <span>003 — Hidden Word</span>
+   <span class="status" id="s3">LOCKED</span>
+  </div>
+  <div class="secret">
+   <span>004 — The Silence</span>
+   <span class="status" id="s4">LOCKED</span>
+  </div>
+  <div class="secret">
+   <span>005 — The Footer</span>
+   <span class="status" id="s5">LOCKED</span>
+  </div>
+  <div class="secret">
+   <span>006 — The Name</span>
+   <span class="status" id="s6">LOCKED</span>
+  </div>
+  <div class="secret">
+   <span>007 — The Sequence</span>
+   <span class="status" id="s7">LOCKED</span>
+  </div>
+  <div class="secret">
+   <span>008 — The Corner</span>
+   <span class="status" id="s8">LOCKED</span>
+  </div>
+ </section>
+
+ <section class="panel clues">
+  <h2>CLUE BOARD</h2>
+  <p>001: A number can be more important than you think.</p>
+  <p>002: Pay attention to the brand.</p>
+  <p>003: Three letters can open a door.</p>
+  <p>004: Sometimes doing nothing is doing something.</p>
+  <p>005: The end of a page might not be the end.</p>
+  <p>006: The name of this game matters.</p>
+  <p>007: Old games had special button combinations.</p>
+  <p>008: Look beyond the center of the screen.</p>
+ </section>
+
+ <section class="panel" style="text-align:center">
+  <h2>NEED A HINT?</h2>
+  <button id="hintButton">Reveal a hint</button>
+  <p id="hint"></p>
+ </section>
+
+</main>
+
+<footer id="footer">EGGSTER — A FEAL.NUN experiment</footer>
+
+<button id="hidden-zone" aria-label="Hidden corner"></button>
 
 <script>
-let eggs=0,power=1,auto=0;
-let clickCost=25,autoCost=100,megaCost=500;
-let total=0,secretFound=false;
+const SAVE_KEY="fealnun-eggster-v2";
 
-function format(n){return Math.floor(n).toLocaleString("en-US")}
+let clicks=0;
+let found=[];
+let logoClicks=0;
+let footerClicks=0;
+let hintIndex=0;
+let typed="";
+let sequence=[];
+let lastActivity=Date.now();
+let silenceUnlocked=false;
+
+const hints=[
+ "Try clicking the egg exactly seven times.",
+ "The FEAL.NUN logo is not just decoration.",
+ "Try typing the name of the egg.",
+ "Leave the game alone for a little while.",
+ "Try clicking the footer several times.",
+ "The game title is hiding something.",
+ "Think of classic game controller combinations.",
+ "The top-left corner is worth investigating."
+];
+
+function save(){
+ try{
+  localStorage.setItem(SAVE_KEY,JSON.stringify({
+   clicks:clicks,
+   found:found
+  }));
+ }catch(e){}
+}
+
+function load(){
+ try{
+  const data=JSON.parse(localStorage.getItem(SAVE_KEY));
+  if(data){
+   clicks=Number(data.clicks)||0;
+   found=Array.isArray(data.found)
+    ?data.found.filter(n=>Number.isInteger(n)&&n>=1&&n<=8)
+    :[];
+  }
+ }catch(e){}
+ update();
+}
+
+function discover(n){
+ if(found.includes(n))return;
+ found.push(n);
+ document.getElementById("message").textContent=
+  "SECRET DISCOVERED — "+String(n).padStart(3,"0");
+ update();
+ save();
+
+ if(found.length===8){
+  document.getElementById("message").textContent=
+   "ALL EIGHT SECRETS FOUND. YOU DID IT.";
+ }
+}
 
 function update(){
- document.getElementById("eggs").textContent=format(eggs);
- document.getElementById("power").textContent=format(power);
- document.getElementById("auto").textContent=format(auto);
- document.getElementById("clickCost").textContent=format(clickCost);
- document.getElementById("autoCost").textContent=format(autoCost);
- document.getElementById("megaCost").textContent=format(megaCost);
+ document.getElementById("clicks").textContent=clicks;
+ document.getElementById("count").textContent=found.length+" / 8";
+ document.getElementById("bar").style.width=(found.length/8*100)+"%";
 
- document.getElementById("achievement").textContent=
- total>=100?"🏆 Egg Collector unlocked!":"🔒 First 100 eggs: "+format(total)+"/100";
-
- document.getElementById("secret").textContent=
- secretFound?"👀 Secret egg discovered!":"❓ Secret discovery: locked";
-}
-
-function clickEgg(){
- eggs+=power;total+=power;
- document.getElementById("message").textContent=
- ["Nice click!","Egg-cellent!","Keep going!","🥚 +"+power+" eggs!"][Math.floor(Math.random()*4)];
- if(!secretFound&&Math.random()<0.01){
-  secretFound=true;
-  document.getElementById("message").textContent="🎉 SECRET EGG FOUND!";
- }
- update();
-}
-
-function buyClick(){
- if(eggs<clickCost)return alert("Not enough eggs!");
- eggs-=clickCost;power++;
- clickCost=Math.ceil(clickCost*1.65);update();
-}
-function buyAuto(){
- if(eggs<autoCost)return alert("Not enough eggs!");
- eggs-=autoCost;auto++;
- autoCost=Math.ceil(autoCost*1.8);update();
-}
-function buyMega(){
- if(eggs<megaCost)return alert("Not enough eggs!");
- eggs-=megaCost;power+=10;
- megaCost=Math.ceil(megaCost*2);update();
-}
-function saveGame(){
- localStorage.setItem("eggster-save",JSON.stringify({
- eggs,power,auto,clickCost,autoCost,megaCost,total,secretFound
- }));
- alert("Game saved!");
-}
-function loadGame(){
- try{
-  let s=JSON.parse(localStorage.getItem("eggster-save"));
-  if(s){
-   eggs=s.eggs||0;power=s.power||1;auto=s.auto||0;
-   clickCost=s.clickCost||25;autoCost=s.autoCost||100;
-   megaCost=s.megaCost||500;total=s.total||0;
-   secretFound=!!s.secretFound;
+ for(let i=1;i<=8;i++){
+  const el=document.getElementById("s"+i);
+  if(found.includes(i)){
+   el.textContent="FOUND";
+   el.className="status found";
+  }else{
+   el.textContent="LOCKED";
+   el.className="status";
   }
- }catch(e){console.log("Save could not be loaded",e)}
- update();
-}
-function resetGame(){
- if(confirm("Are you sure? Your progress will be lost.")){
-  localStorage.removeItem("eggster-save");
-  eggs=0;power=1;auto=0;clickCost=25;
-  autoCost=100;megaCost=500;total=0;secretFound=false;
-  update();
  }
 }
-setInterval(()=>{eggs+=auto;total+=auto;update()},1000);
-loadGame();
+
+function activity(){
+ lastActivity=Date.now();
+}
+
+document.getElementById("egg").addEventListener("click",()=>{
+ activity();
+ clicks++;
+ document.getElementById("message").textContent=
+  clicks%2===0?"Keep looking.":"Interesting. Try something else.";
+ if(clicks===7)discover(1);
+ update();
+ save();
+});
+
+document.querySelector(".logo").addEventListener("click",()=>{
+ activity();
+ logoClicks++;
+ if(logoClicks>=5)discover(2);
+});
+
+document.addEventListener("keydown",event=>{
+ activity();
+
+ if(event.key.length===1){
+  typed+=event.key.toLowerCase();
+  typed=typed.slice(-5);
+  if(typed.endsWith("egg"))discover(3);
+  if(typed.endsWith("feal"))discover(6);
+ }
+
+ const key=event.key.toLowerCase();
+ const expected=["arrowup","arrowup","arrowdown","arrowdown",
+                 "arrowleft","arrowright","arrowleft","arrowright"];
+
+ if(["arrowup","arrowdown","arrowleft","arrowright"].includes(key)){
+  sequence.push(key);
+  sequence=sequence.slice(-8);
+
+  if(sequence.join(",")===expected.join(",")){
+   discover(7);
+   sequence=[];
+  }
+ }
+});
+
+let footer=document.getElementById("footer");
+footer.addEventListener("click",()=>{
+ activity();
+ footerClicks++;
+ if(footerClicks>=3)discover(5);
+});
+
+document.getElementById("hidden-zone").addEventListener("click",()=>{
+ discover(8);
+});
+
+document.getElementById("hintButton").addEventListener("click",()=>{
+ document.getElementById("hint").textContent=
+  hints[hintIndex%hints.length];
+ hintIndex++;
+});
+
+setInterval(()=>{
+ if(!silenceUnlocked&&Date.now()-lastActivity>=10000){
+  silenceUnlocked=true;
+  discover(4);
+ }
+},500);
+
+load();
 </script>
 </body>
 </html>
